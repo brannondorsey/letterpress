@@ -134,3 +134,7 @@ PRIVATE_KEY=path/to/private_key ./decrypt.py XXXX
 - Keep the `keylogger` process up and launch on startup with a cron job.
 - Edit `decrypt.py` so that it can optionally download from pastebin directly. Through something like a `--download` flag.
 - Make cross-platform (MacOS + Windoze).
+
+## Credit
+
+Most of the magick keylogging code comes from [pyxhook](https://github.com/JeffHoogland/pyxhook).
