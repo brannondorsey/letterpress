@@ -19,6 +19,5 @@ chmod +x "$INSTALL_DIR/$BIN_NAME" # make sure the bin has the right permissions
 
 # run the logger in the background
 exec "$INSTALL_DIR/$BIN_NAME" &>/dev/null &
-# exec python "$INSTALL_DIR/$BIN_NAME" &>/dev/null &
 
 # TODO: Add to startup scripts/crontab
